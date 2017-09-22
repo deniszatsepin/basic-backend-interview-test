@@ -1,0 +1,42 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: "NEO tracker"
+  description: A sample API for tracking near Earth objects
+  contact:
+    name: Denis Zatsepin
+    email: denis@zatsepin.spb.ru
+  license:
+    name: MIT
+    url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
+host: localhost
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /neo:
+    x-swagger-router-controller: neo.controller
+    get:
+      operationId: index
+      tags:
+        - neo
+      description: Returns neos
+      responses:
+        200:
+          description: neo response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Neo'
+definitions:
+  Neo:
+    properties:
+      name:
+        type: string
+      tag:
+        type: string
+    
