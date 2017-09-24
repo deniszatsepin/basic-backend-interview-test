@@ -15,11 +15,26 @@ const schema = new Schema({
     type: String,
     required: true
   },
-  speed: String,
+  speed: Number,
   isHazardous: {
     type: Boolean,
     default: false
   }
 });
+
+schema.statics.findHazardous = function() {
+  return this.find({
+    isHazardous: true
+  });
+};
+
+schema.statics.findFastest = function(isHazardous) {
+  return this
+    .findOne({
+      isHazardous
+    }).sort({
+      speed: -1
+    });
+};
 
 module.exports = mongoose.model('NearEarthObject', schema);

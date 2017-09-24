@@ -20,7 +20,7 @@ describe('NEO Tracker model', () => {
     it('should have required properties', () => {
       const reference = `${Math.random()}`;
       const name = 'test';
-      const speed = '10';
+      const speed = 10;
 
       const neo = new NearEarthObject({
         reference,
