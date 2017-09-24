@@ -1,5 +1,6 @@
 /* eslint-disable node/no-unpublished-require*/
 const mongoose = require('mongoose');
+const moment = require('moment');
 const apiSetup = require('utils/test.utils');
 const NearEarthObject = require('api/neo/neo.model');
 const chai = require('chai');
@@ -9,20 +10,24 @@ describe('NEO Tracker Controller', () => {
   let api;
 
   before(() => {
+    const dates = ['2017-12-10', '2015-12-4', '2012-12-1', '2015-10-25'];
+
     return apiSetup()
       .then(testAPI => api = testAPI)
       .then(() => {
         const neos = [];
         for (let i = 20; i > 0; i -= 1) {
-          neos.push(new NearEarthObject({
+          const date = moment(dates[i % 4]).toDate();
+          neos.push({
             name: `neo ${i}`,
             reference: i,
             isHazardous: i % 2 ? true : false,
-            speed: i * 1000
-          }));
+            speed: i * 1000,
+            date
+          });
         }
 
-        return Promise.all(neos.map(neo => neo.save()));
+        return NearEarthObject.insertMany(neos);
       });
   });
 
@@ -70,6 +75,31 @@ describe('NEO Tracker Controller', () => {
           expect(response.body.name).to.not.be.undefined;
           expect(response.body.isHazardous).to.be.true;
           expect(response.body.speed).to.be.equal(19000);
+        });
+    });
+  });
+
+  describe('/neo/best-year', () => {
+    it('should return a year with most not hazardous asteroids', () => {
+      return api
+        .get('/api/neo/best-year')
+        .expect(200)
+        .then(response => {
+          expect(response).to.have.nested.property('body');
+          expect(response.body._id).to.be.equal(2012);
+        });
+    });
+
+    it('should return a year with most hazardous asteroids', () => {
+      return api
+        .get('/api/neo/best-year')
+        .query({
+          hazardous: true
+        })
+        .expect(200)
+        .then(response => {
+          expect(response).to.have.nested.property('body');
+          expect(response.body._id).to.be.equal(2015);
         });
     });
   });

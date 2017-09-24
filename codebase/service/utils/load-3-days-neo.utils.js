@@ -41,7 +41,7 @@ const loadAndPersist = module.exports.loadAndPersist = function loadAndPersist()
     loadNeo(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD')),
     dbSetup(dbConfig)
   ])
-    .then(([response, db]) => {
+    .then(([response, _]) => {
       loaded = response.element_count;
       const neosInfo = response.near_earth_objects;
       const neos = Object.keys(neosInfo)
@@ -49,20 +49,20 @@ const loadAndPersist = module.exports.loadAndPersist = function loadAndPersist()
           const infos = neosInfo[date];
 
           return infos.map(info => {
+            const cad = info.close_approach_data[0];
+
             return {
-              data: new Date(date),
+              data: moment(cad.close_approach_date).toDate(),
               reference: info.neo_reference_id,
               name: info.name,
-              speed: info.kilometers_per_hour,
+              speed: cad.relative_velocity.kilometers_per_hour,
               isHazardous: info.is_potentially_hazardous_asteroid
             };
           });
         })
-        .reduce((acc, cur) => acc.concat(cur), [])
-        .map(info => new NearEarthObject(info))
-        .map(neo => neo.save());
+        .reduce((acc, cur) => acc.concat(cur), []);
 
-      return Promise.all(neos);
+      return NearEarthObject.insertMany(neos);
     })
     .then(() => loaded);
 }

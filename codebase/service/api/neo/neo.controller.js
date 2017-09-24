@@ -2,7 +2,8 @@ const NearEarthObject = require('api/neo/neo.model');
 
 module.exports = {
   getHazardous,
-  getFastest
+  getFastest,
+  getBestYear
 };
 
 function getHazardous(req, res) {
@@ -19,6 +20,12 @@ function getFastest(req, res) {
   const isHazardous = !!req.swagger.params.hazardous.value;
 
   NearEarthObject.findFastest(isHazardous)
-    .then(neo => neo.toJSON())
-    .then(neo => res.json(neo));
+    .then(neo => res.json(neo.toJSON()));
+}
+
+function getBestYear(req, res) {
+  const isHazardous = !!req.swagger.params.hazardous.value;
+
+  NearEarthObject.findBestYear(isHazardous)
+    .then(year => res.json(year));
 }

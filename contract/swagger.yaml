@@ -66,6 +66,26 @@ paths:
           schema:
             $ref: '#/definitions/Neo'
 
+  /neo/best-year:
+    x-swagger-router-controller: neo.controller
+    get:
+      operationId: getBestYear
+      tags:
+        - neo
+      parameters:
+        - name: hazardous
+          in: query
+          description: Filter potentially hazardous asteroids
+          required: false
+          type: boolean
+      description: Returns a year with most asteroids
+      responses:
+        200:
+          description: neo response
+          schema:
+            $ref: '#/definitions/Year'
+
+
 definitions:
   Neo:
     properties:
@@ -79,3 +99,7 @@ definitions:
         type: string
       isHazardous:
         type: boolean
+  Year:
+    properties:
+      year:
+        type: string

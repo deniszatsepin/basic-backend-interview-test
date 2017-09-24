@@ -22,19 +22,44 @@ const schema = new Schema({
   }
 });
 
-schema.statics.findHazardous = function() {
-  return this.find({
-    isHazardous: true
-  });
-};
-
-schema.statics.findFastest = function(isHazardous) {
-  return this
-    .findOne({
-      isHazardous
-    }).sort({
-      speed: -1
+schema.statics = {
+  findHazardous: function() {
+    return this.find({
+      isHazardous: true
     });
+  },
+
+  findFastest: function(isHazardous) {
+    return this
+      .findOne({
+        isHazardous
+      }).sort({
+        speed: -1
+      });
+  },
+  findBestYear: function(isHazardous) {
+    const aggregators = [
+      {
+        $match: {
+          isHazardous
+        },
+      },
+      {
+        $group: {
+          _id: { $year: '$date' },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { count: -1 }
+      },
+      {
+        $limit: 1
+      }
+    ];
+
+    return this.aggregate(aggregators).then(res => res[0]);
+  }
 };
 
 module.exports = mongoose.model('NearEarthObject', schema);
