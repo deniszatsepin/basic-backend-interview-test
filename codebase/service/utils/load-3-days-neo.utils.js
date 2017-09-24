@@ -31,7 +31,7 @@ const loadNeo = module.exports.loadNeo = function loadNeo(startDate, endDate) {
     .then(res => res.body);
 }
 
-const loadAndPersist = module.exports.loadAndPersist = function loadAndPersist() {
+module.exports.loadAndPersist = function loadAndPersist() {
   const endDate = moment();
   const startDate = moment().subtract(2, 'day');
 

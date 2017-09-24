@@ -10,7 +10,7 @@ describe('NEO Tracker Controller', () => {
   let api;
 
   before(() => {
-    const dates = ['2017-12-10', '2015-12-4', '2012-12-1', '2015-10-25'];
+    const dates = ['2017-12-10', '2015-11-4', '2012-12-1', '2015-11-25'];
 
     return apiSetup()
       .then(testAPI => api = testAPI)
@@ -86,7 +86,7 @@ describe('NEO Tracker Controller', () => {
         .expect(200)
         .then(response => {
           expect(response).to.have.nested.property('body');
-          expect(response.body._id).to.be.equal(2012);
+          expect(response.body.year).to.be.equal(2012);
         });
     });
 
@@ -99,7 +99,32 @@ describe('NEO Tracker Controller', () => {
         .expect(200)
         .then(response => {
           expect(response).to.have.nested.property('body');
-          expect(response.body._id).to.be.equal(2015);
+          expect(response.body.year).to.be.equal(2015);
+        });
+    });
+  });
+
+  describe('/neo/best-month', () => {
+    it('should return a month with most not hazardous asteroids', () => {
+      return api
+        .get('/api/neo/best-month')
+        .expect(200)
+        .then(response => {
+          expect(response).to.have.nested.property('body');
+          expect(response.body.month).to.be.equal(12);
+        });
+    });
+
+    it('should return a month with most hazardous asteroids', () => {
+      return api
+        .get('/api/neo/best-month')
+        .query({
+          hazardous: true
+        })
+        .expect(200)
+        .then(response => {
+          expect(response).to.have.nested.property('body');
+          expect(response.body.month).to.be.equal(11);
         });
     });
   });

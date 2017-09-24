@@ -37,6 +37,7 @@ schema.statics = {
         speed: -1
       });
   },
+
   findBestYear: function(isHazardous) {
     const aggregators = [
       {
@@ -55,6 +56,44 @@ schema.statics = {
       },
       {
         $limit: 1
+      },
+      {
+        $project: {
+          year: '$_id',
+          count: 1,
+          _id: 0
+        }
+      }
+    ];
+
+    return this.aggregate(aggregators).then(res => res[0]);
+  },
+
+  findBestMonth: function(isHazardous) {
+    const aggregators = [
+      {
+        $match: {
+          isHazardous
+        },
+      },
+      {
+        $group: {
+          _id: { $month: '$date' },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { count: -1 }
+      },
+      {
+        $limit: 1
+      },
+      {
+        $project: {
+          month: '$_id',
+          count: 1,
+          _id: 0
+        }
       }
     ];
 
