@@ -9,6 +9,7 @@ module.exports = {
         "plugin:node/recommended"
     ],
     "rules": {
+        "indent": ["error", 2],
         "node/exports-style": [
             "error",
             "module.exports"

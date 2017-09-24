@@ -22,7 +22,7 @@ services:
       - ../../codebase:/home/service/app
       - ../../contract:/home/service/app/contract
       - ../../tmp/npm_modules:/home/service/app/node_modules
-    command: bash -c "npm install && npm test"
+    command: bash -c "npm install && npm run tdd"
   api-db:
     image: mongo:3.4
     volumes:
