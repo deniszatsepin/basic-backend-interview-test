@@ -32,11 +32,50 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Neo'
+  /neo/hazardous:
+    x-swagger-router-controller: neo.controller
+    get:
+      operationId: getHazardous
+      tags:
+        - neo
+      description: Returns potentially hazardous asteroids
+      responses:
+        200:
+          description: neo response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Neo'
+
+  /neo/fastest:
+    x-swagger-router-controller: neo.controller
+    get:
+      operationId: getFastest
+      tags:
+        - neo
+      parameters:
+        - name: hazardous
+          in: query
+          description: Filter potentially hazardous asteroids
+          required: false
+          type: boolean
+      description: Returns fastest asteroids
+      responses:
+        200:
+          description: neo response
+          schema:
+            $ref: '#/definitions/Neo'
+
 definitions:
   Neo:
     properties:
+      date:
+        type: string
+      reference:
+        type: string
       name:
         type: string
-      tag:
+      speed:
         type: string
-    
+      isHazardous:
+        type: boolean
