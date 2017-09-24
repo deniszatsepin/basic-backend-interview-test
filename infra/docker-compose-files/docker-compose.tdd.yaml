@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: ../../
+      dockerfile: infra/docker-files/nodejs/Dockerfile
+    depends_on:
+      - api-db
+    environment:
+      NODE_ENV: test
+      APP_PORT: 3000
+      NASA_API: ${NASA_API}
+      NASA_API_KEY: ${NASA_API_KEY}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - ${APP_PORT}:3000
+      - 9229:9229
+    volumes:
+      - ../../codebase:/home/service/app
+      - ../../contract:/home/service/app/contract
+      - ../../tmp/npm_modules:/home/service/app/node_modules
+    command: bash -c "npm install && npm test"
+  api-db:
+    image: mongo:3.4
+    volumes:
+      - ../../tmp/data:/data/db

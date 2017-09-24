@@ -1,11 +1,21 @@
-/web/bundles/
-/app/bootstrap.php.cache
-/app/cache/*
-/app/config/parameters.yml
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
-/app/phpunit.xml
-/build/
-/vendor/
-/bin/
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Dependency directories
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# IDE
+.idea
+
+.DS_Store
+*.tgz
+
+# Mongodb files
+tmp
+
+.contract
