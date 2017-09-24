@@ -4,9 +4,10 @@
   "description": "",
   "main": "service/server.js",
   "scripts": {
-    "test": "mocha -r service/server.js -w --no-exit service/test/**/*.test.js",
+    "tdd": "mocha -R spec -r service/server.js -w --no-exit --recursive service/test/**/*.test.js service/test/api/**/*.test.js",
     "start": "node service/server",
-    "debug": "nodemon -L --nolazy --debug-brk=9229 service/server.js"
+    "debug": "nodemon -L --nolazy --debug-brk=9229 service/server.js",
+    "loadObjects": "node service/bin/load-neos.js"
   },
   "keywords": [],
   "author": "Denis Zatsepin <denis@zatsepin.spb.ru>",
@@ -18,6 +19,7 @@
     "http-errors": "^1.6.2",
     "js-yaml": "^3.10.0",
     "jsonapi-serializer": "^3.5.5",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.12",
     "pm2": "^2.7.0",
     "superagent": "^3.6.0",

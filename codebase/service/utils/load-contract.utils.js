@@ -5,7 +5,7 @@ module.exports = (filename) => {
   try {
     const swaggerFile = fs.readFileSync(filename);
     return yaml.safeLoad(swaggerFile);
-  } catch(err) {
+  } catch (err) {
     return null;
   }
 }
