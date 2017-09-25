@@ -17,6 +17,11 @@ And I also used Docker to implement development and production environment.
 - go to your `basic-backend-interview-test` directory
 - run `docker-compose -f infra/docker-compose-files/docker-compose.yaml up`
 
+### Command
+To run a command which requests the data from the last 3 days from nasa api you may run:
+`docker-compose -f infra/docker-compose-files/docker-compose.yaml exec api npm run loadObjects`
+
+### API
 API documentation will be available on http://localhost:8080/docs
 
 To change application ports you may edit `.env` file in root directory of the project. It also includes NASA API address and key.
