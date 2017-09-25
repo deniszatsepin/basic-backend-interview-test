@@ -10,7 +10,7 @@ describe('NEO Tracker Controller', () => {
   let api;
 
   before(() => {
-    const dates = ['2017-12-10', '2015-11-4', '2012-12-1', '2015-11-25'];
+    const dates = ['2017-12-10', '2015-11-04', '2012-12-01', '2015-11-25'];
 
     return apiSetup()
       .then(testAPI => api = testAPI)

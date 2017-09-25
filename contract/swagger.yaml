@@ -9,7 +9,7 @@ info:
   license:
     name: MIT
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
-host: localhost
+host: localhost:8080
 basePath: /api
 schemes:
   - http
@@ -18,20 +18,6 @@ consumes:
 produces:
   - application/json
 paths:
-  /neo:
-    x-swagger-router-controller: neo.controller
-    get:
-      operationId: index
-      tags:
-        - neo
-      description: Returns neos
-      responses:
-        200:
-          description: neo response
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Neo'
   /neo/hazardous:
     x-swagger-router-controller: neo.controller
     get:
@@ -46,6 +32,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Neo'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
   /neo/fastest:
     x-swagger-router-controller: neo.controller
@@ -59,12 +49,17 @@ paths:
           description: Filter potentially hazardous asteroids
           required: false
           type: boolean
+          default: false
       description: Returns fastest asteroids
       responses:
         200:
           description: neo response
           schema:
             $ref: '#/definitions/Neo'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
   /neo/best-year:
     x-swagger-router-controller: neo.controller
@@ -78,12 +73,17 @@ paths:
           description: Filter potentially hazardous asteroids
           required: false
           type: boolean
+          default: false
       description: Returns a year with most asteroids
       responses:
         200:
           description: neo response
           schema:
             $ref: '#/definitions/Year'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
   /neo/best-month:
     x-swagger-router-controller: neo.controller
@@ -97,12 +97,17 @@ paths:
           description: Filter potentially hazardous asteroids
           required: false
           type: boolean
+          default: false
       description: Returns a year with most asteroids
       responses:
         200:
           description: neo response
           schema:
             $ref: '#/definitions/Month'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 
 definitions:
   Neo:
@@ -114,7 +119,7 @@ definitions:
       name:
         type: string
       speed:
-        type: string
+        type: number 
       isHazardous:
         type: boolean
   Year:
@@ -129,3 +134,12 @@ definitions:
         type: number 
       count:
         type: number
+  Error:
+    required:
+      - error
+      - message
+    properties:
+      error:
+        type: string
+      message:
+        type: string

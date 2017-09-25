@@ -6,7 +6,7 @@
   "scripts": {
     "tdd": "mocha -R spec -r service/server.js -w --no-exit service/test/**/*.test.js service/test/api/**/*.test.js",
     "test-debug": "mocha --debug-brk=9229 -R spec -r service/server.js service/test/**/*.test.js service/test/api/**/*.test.js",
-    "start": "node service/server",
+    "start": "pm2 start --no-daemon service/server.js -i 0",
     "debug": "nodemon -L --nolazy --debug-brk=9229 service/server.js",
     "loadObjects": "node service/bin/load-neos.js"
   },
@@ -17,6 +17,7 @@
     "app-module-path": "^2.2.0",
     "body-parser": "^1.18.1",
     "express": "^4.15.4",
+    "helmet": "^3.8.1",
     "http-errors": "^1.6.2",
     "js-yaml": "^3.10.0",
     "jsonapi-serializer": "^3.5.5",

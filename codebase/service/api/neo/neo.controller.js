@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const NearEarthObject = require('api/neo/neo.model');
 
 module.exports = {
@@ -17,23 +18,43 @@ function getHazardous(req, res) {
     });
 }
 
-function getFastest(req, res) {
+const emptyDbErrorMessage = 'There is no Near Earth Objects in database.';
+
+function getFastest(req, res, next) {
   const isHazardous = !!req.swagger.params.hazardous.value;
 
   NearEarthObject.findFastest(isHazardous)
-    .then(neo => res.json(neo.toJSON()));
+    .then(neo => {
+      if (!neo) {
+        return next(new createError.NotFound(emptyDbErrorMessage));
+      }
+      
+      res.json(neo.toJSON());
+    });
 }
 
-function getBestYear(req, res) {
+function getBestYear(req, res, next) {
   const isHazardous = !!req.swagger.params.hazardous.value;
 
   NearEarthObject.findBestYear(isHazardous)
-    .then(year => res.json(year));
+    .then(year => {
+      if (!year) {
+        return next(new createError.NotFound(emptyDbErrorMessage));
+      }
+      
+      res.json(year);
+    });
 }
 
-function getBestMonth(req, res) {
+function getBestMonth(req, res, next) {
   const isHazardous = !!req.swagger.params.hazardous.value;
 
   NearEarthObject.findBestMonth(isHazardous)
-    .then(month => res.json(month));
+    .then(month => {
+      if (!month) {
+        return next(new createError.NotFound(emptyDbErrorMessage));
+      }
+      
+      res.json(month);
+    });
 }
