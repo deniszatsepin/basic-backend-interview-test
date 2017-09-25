@@ -14,7 +14,7 @@ services:
       NASA_API_KEY: ${NASA_API_KEY}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
-      DB_NAME: ${DB_NAME}
+      DB_NAME: test_${DB_NAME}
     ports:
       - ${APP_PORT}:3000
       - 9229:9229
