@@ -1,3 +1,30 @@
+# Near Earth Object tracker
+I decided to implement this project based on Express framework. It's a matured Node.js framework with the biggest community, so it's a lot of middlewares for it available in NPM and it's easy to get help if you get any problems.
+
+As a persistent layer I chose MongoDB with Mongoose. MongoDB is a pretty good NoSQL database for fast prototyping and also for production. And Mongoose is the best tool to work with MongoDB on Node.js.
+
+For API realisation I prefer specification driven approach. It means that firstly for api endpoint we should prepare specification (swagger), than write tests, and then implement required models, controllers, etc. I use swagger-tools to connect an application with a specification.
+
+And I also used Docker to implement development and production environment.
+
+## Directory structure
+- `codebase` - all application sources placed in that directory
+- `contract` - includes swagger specification file
+- `infra` - all infrastructre related resources should be placed here. (Docker files, Jenkins files, etc.)
+
+## Usage
+- clone this repo
+- go to your `basic-backend-interview-test` directory
+- run `docker-compose -f infra/docker-compose-files/docker-compose.yaml up`
+
+API documentation will be available on http://localhost:8080/docs
+
+To change application ports you may edit `.env` file in root directory of the project. It also includes NASA API address and key.
+
+## Development
+For development proposes we have `infra/docker-compose-files/docker-compose.tdd.yaml` file. Use it to run project in development (TDD) environment.
+
+---
 # Basic Backend Developer Interview
 
 Dear candidate, please follow this readme and solve all questions.

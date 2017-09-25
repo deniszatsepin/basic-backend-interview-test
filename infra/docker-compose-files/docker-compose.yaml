@@ -17,7 +17,6 @@ services:
       DB_NAME: ${DB_NAME}
     ports:
       - ${APP_PORT}:3000
-      - 9229:9229
     volumes:
       - ../../codebase:/home/service/app
       - ../../contract:/home/service/app/contract
